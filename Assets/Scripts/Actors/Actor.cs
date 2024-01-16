@@ -10,6 +10,7 @@ public enum MoveState
 
 public class Actor : MonoBehaviour
 {
+    public ActorStats stats;
     [SerializeField] protected GameObject actor;
     protected Rigidbody2D rb;
     protected BoxCollider2D col;

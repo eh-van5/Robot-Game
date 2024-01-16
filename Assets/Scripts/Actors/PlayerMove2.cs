@@ -10,7 +10,7 @@ public class PlayerMove2 : MonoBehaviour
 
 {
     GameObject player;
-    public Actor2 actor;
+    public ActorStats actor;
     protected Rigidbody2D rb;
     [Header("Debugging")]
     [SerializeField] protected Vector2 moveDir; //Displays actor velocity

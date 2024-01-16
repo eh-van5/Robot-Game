@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(menuName = "Actor")]
-public class Actor2 : ScriptableObject
+public class ActorStats : ScriptableObject
 {
     protected Rigidbody2D rb;
     protected BoxCollider2D col;
