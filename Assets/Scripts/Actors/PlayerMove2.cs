@@ -6,14 +6,13 @@ using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 
-public class PlayerMove2 : MonoBehaviour
+public class PlayerMove2 : Actor, IDamageable
 
 {
+    public CameraControl cameraControl;
+
     GameObject player;
-    public ActorStats actor;
-    protected Rigidbody2D rb;
     [Header("Debugging")]
-    [SerializeField] protected Vector2 moveDir; //Displays actor velocity
     [SerializeField] protected Vector2 vel; //Displays actor velocity
     [SerializeField] protected bool space;
     [SerializeField] protected bool ran;
@@ -27,7 +26,8 @@ public class PlayerMove2 : MonoBehaviour
     [SerializeField] protected bool dash;
     [SerializeField] protected int numJumps = 0;
 
-
+    public Vector3 Position { get { return transform.position; } }
+    public float Hitpoints { get { return stats.currentHP; } set { stats.currentHP = value; } }
 
 
 
@@ -47,10 +47,8 @@ public class PlayerMove2 : MonoBehaviour
 
     void Start()
     {
-        player = gameObject;
-        rb = player.GetComponent<Rigidbody2D>();
-
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        base.Start();
+        stats.currentHP = stats.maxHP;
     }
 
     protected void Update()
@@ -65,11 +63,11 @@ public class PlayerMove2 : MonoBehaviour
         jumpButton = Input.GetButton("Jump");
         jumpLetGo = Input.GetButtonUp("Jump");
         dash = Input.GetKey(KeyCode.C);
-        if (numJumps < actor.bonusJump)
+        if (numJumps < stats.bonusJump)
         {
             Jump();
         }
-        if (isGrounded)
+        if (isGrounded())
         {
             numJumps = 0;
         }
@@ -84,7 +82,7 @@ public class PlayerMove2 : MonoBehaviour
         #region Horizontal Movement
         if (moveDir.x > 0.1f || moveDir.x < -0.1f)
         {
-            float moveSpeed = actor.speed;
+            float moveSpeed = stats.speed;
             rb.velocity = new Vector2(moveDir.x * moveSpeed , rb.velocity.y);
         }
         else
@@ -98,15 +96,15 @@ public class PlayerMove2 : MonoBehaviour
         #region Falling
         if (rb.velocity.y < 0)
         {
-            rb.AddForce(new Vector2(0f, Physics2D.gravity.y * (actor.fallingGravityScale - 1)));
+            rb.AddForce(new Vector2(0f, Physics2D.gravity.y * (stats.fallingGravityScale - 1)));
         }
         else if (rb.velocity.y > 0 && !jumpButton){
-            rb.AddForce(new Vector2(0f, Physics2D.gravity.y * (actor.lowJumpGravityScale - 1)));
+            rb.AddForce(new Vector2(0f, Physics2D.gravity.y * (stats.lowJumpGravityScale - 1)));
 
         }
         if (moveDir.y < -0.1f)
         {
-            rb.AddForce(new Vector2(0f, -9.81f * actor.slamScale), ForceMode2D.Impulse);
+            rb.AddForce(new Vector2(0f, -9.81f * stats.slamScale), ForceMode2D.Impulse);
         }
         
         #endregion
@@ -117,12 +115,12 @@ public class PlayerMove2 : MonoBehaviour
         {
             if (moveDir.x == 0f)
             {
-                rb.AddForce(new Vector2(actor.dashSpeed, 0f), ForceMode2D.Impulse);
+                rb.AddForce(new Vector2(stats.dashSpeed, 0f), ForceMode2D.Impulse);
 
             }
             else
             {
-                rb.AddForce(new Vector2(moveDir.x * actor.dashSpeed, 0f), ForceMode2D.Impulse);
+                rb.AddForce(new Vector2(moveDir.x * stats.dashSpeed, 0f), ForceMode2D.Impulse);
             }
         }
         #endregion
@@ -137,7 +135,7 @@ public class PlayerMove2 : MonoBehaviour
         {
             isJumping = true;
             jumpTime = jumpStartTime;
-            rb.velocity = Vector2.up * actor.jumpForce;
+            rb.velocity = Vector2.up * stats.jumpForce;
             numJumps++;
 
         }
@@ -164,22 +162,31 @@ public class PlayerMove2 : MonoBehaviour
 
          }*/
     }
-    public void OnTriggerEnter2D(Collider2D collision)
+
+    public void Damage(float damageAmount)
     {
-        if (collision.gameObject.tag == "Surface")
+        StartCoroutine(cameraControl.Shake(0.2f, 0.5f));
+        stats.currentHP -= damageAmount;
+        if (stats.currentHP <= 0)
         {
-            isGrounded = true;
-        }
-    }
-    public void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "Surface")
-        {
-            isGrounded = false;
+            Death();
         }
     }
 
+    public void Heal(float healAmount)
+    {
+        stats.currentHP += healAmount;
+        if (stats.currentHP >= stats.maxHP)
+        {
+            stats.currentHP = stats.maxHP;
+        }
+    }
 
+    public void Death()
+    {
+        Debug.Log("You died");
+        Destroy(gameObject);
+    }
 
     /* private void InputHandler()
      {
@@ -273,39 +280,39 @@ public class PlayerMove2 : MonoBehaviour
 
       }*/
 
-   /* public void Damage(float damageAmount)
-    {
-        hitpoints -= damageAmount;
-    }
+    /* public void Damage(float damageAmount)
+     {
+         hitpoints -= damageAmount;
+     }
 
-    public void Heal(float healAmount)
-    {
-        hitpoints += healAmount;
-    }*/
+     public void Heal(float healAmount)
+     {
+         hitpoints += healAmount;
+     }*/
 
-   /* private void Dash()
-    {
-        StartCoroutine(dashMoveTimer());
-        StartCoroutine(dashTimer());
-    }
+    /* private void Dash()
+     {
+         StartCoroutine(dashMoveTimer());
+         StartCoroutine(dashTimer());
+     }
 
-    IEnumerator dashMoveTimer()
-    {
-        moveState = MoveState.Dashing;
-        currentDashSpeed = dashSpeed;
-        moveDir.y = 0; //Stops vertical movement after dash ends
+     IEnumerator dashMoveTimer()
+     {
+         moveState = MoveState.Dashing;
+         currentDashSpeed = dashSpeed;
+         moveDir.y = 0; //Stops vertical movement after dash ends
 
-        yield return new WaitForSeconds(dashTime);
+         yield return new WaitForSeconds(dashTime);
 
-        moveState = MoveState.Default;
-    }
-    IEnumerator dashTimer()
-    {
-        canDash = false;
+         moveState = MoveState.Default;
+     }
+     IEnumerator dashTimer()
+     {
+         canDash = false;
 
-        yield return new WaitForSeconds(timeBeforeDash);
+         yield return new WaitForSeconds(timeBeforeDash);
 
-        canDash = true;
-    }*/
+         canDash = true;
+     }*/
 
 }
