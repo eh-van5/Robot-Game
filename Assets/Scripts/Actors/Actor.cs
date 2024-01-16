@@ -42,6 +42,7 @@ public class Actor : MonoBehaviour
 
         headTouched = isHeadTouch();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
     }
 
     protected void Update()
@@ -87,25 +88,25 @@ public class Actor : MonoBehaviour
         }
     }
 
-    protected void MoveLeft()
-    {
-        moveDir.x = -1;
-    }
+    //protected void MoveLeft()
+    //{
+    //    moveDir.x = -1;
+    //}
 
-    protected void MoveRight()
-    {
-        moveDir.x = 1;
-    }
-    protected void Stop()
-    {
-        moveDir.x = 0;
-    }
+    //protected void MoveRight()
+    //{
+    //    moveDir.x = 1;
+    //}
+    //protected void Stop()
+    //{
+    //    moveDir.x = 0;
+    //}
 
-    protected void Jump()
-    {
-        moveDir.y = jumpForce;
-        doubleJump = false;
-    }
+    //protected void Jump()
+    //{
+    //    moveDir.y = jumpForce;
+    //    doubleJump = false;
+    //}
 
 
     #region RayCast Checks

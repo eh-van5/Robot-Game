@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: Actor
   m_EditorClassIdentifier: 
   speed: 10
-  jumpForce: 12
+  jumpForce: 8
   jumptime: 10
-  fallingGravityScale: 10
-  lowJumpGravityScale: 10
-  slamScale: 10
-  bonusJump: 10
+  fallingGravityScale: 2
+  lowJumpGravityScale: 2.5
+  slamScale: 30
+  bonusJump: 1
   doubleJump: 0
-  dashSpeed: 30
+  dashSpeed: 20
   dashTime: 0.2
   dashFalloffMultiplier: 5
   timeBeforeDash: 5
   canDash: 0
   maxHP: 100
+  currentHP: -30

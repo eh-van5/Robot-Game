@@ -6,18 +6,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Actor")]
 public class ActorStats : ScriptableObject
 {
-    protected Rigidbody2D rb;
-    protected BoxCollider2D col;
-
-
     [Header("Movement")]
     [SerializeField] public float speed = 10f;
-    [SerializeField] public float jumpForce = 12f;
+    [SerializeField] public float jumpForce = 8f;
     [SerializeField] public float jumptime = 10f;
-    [SerializeField] public float fallingGravityScale = 10f;
-    [SerializeField] public float lowJumpGravityScale = 10f;
-    [SerializeField] public float slamScale = 10f;
-    [SerializeField] public int bonusJump = 10;
+    [SerializeField] public float fallingGravityScale = 2f;
+    [SerializeField] public float lowJumpGravityScale = 2.5f;
+    [SerializeField] public float slamScale = 20f;
+    [SerializeField] public int bonusJump = 1;
 
 
     private float airTime;
@@ -26,14 +22,14 @@ public class ActorStats : ScriptableObject
 
    
     [Header("Dashing")]
-    [SerializeField] public float dashSpeed = 30f;
+    [SerializeField] public float dashSpeed = 20f;
     [SerializeField] public float dashTime = 0.2f; //How long player stays in dash
     [SerializeField] public float dashFalloffMultiplier = 5f;
     [SerializeField] public float timeBeforeDash = 5f; //Seconds before player can dash again
     [SerializeField] public bool canDash;
     [Header("Combat")]
-    [SerializeField] protected float maxHP = 100f;
-    protected float currentHP;
-    float Hitpoints { get { return currentHP; } }
+    [SerializeField] public float maxHP = 100f;
+    public float currentHP;
+    float Hitpoints { get { return currentHP; }}
 
 }

@@ -37,7 +37,7 @@ public class PlayerMove : Actor, IDamageable
     void Update()
     {
         base.Update();
-        InputHandler();
+        //InputHandler();
     }
 
     void FixedUpdate()
@@ -46,84 +46,84 @@ public class PlayerMove : Actor, IDamageable
         Movement();
     }
 
-    private void InputHandler()
-    {
-        switch (moveState)
-        {
-            case MoveState.Default:
-                #region Horizontal Input
-                if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
-                {
-                    Stop();
-                }
-                else if (Input.GetKey(KeyCode.A))
-                {
-                    MoveLeft();
-                    if (!leftMoveClick)
-                    {
-                        lastClickTime = Time.time;
-                        leftMoveClick = true;
-                    }
-                    else
-                    {
-                        if (Input.GetKeyDown(KeyCode.A))
-                        {
-                            if(Time.time - lastClickTime <= doubleClickThreshhold && canDash)
-                            {
-                                Dash();
-                                leftMoveClick = false;
-                            }
-                            else
-                            {
-                                lastClickTime = Time.time;
-                            }
-                        }
-                    }
-                }
-                else if (Input.GetKey(KeyCode.D))
-                {
-                    MoveRight();
-                    if (!rightMoveClick)
-                    {
-                        lastClickTime = Time.time;
-                        rightMoveClick = true;
-                    }
-                    else
-                    {
-                        if (Input.GetKeyDown(KeyCode.D))
-                        {
-                            if (Time.time - lastClickTime <= doubleClickThreshhold && canDash)
-                            {
-                                Dash();
-                                rightMoveClick = false;
-                            }
-                            else
-                            {
-                                lastClickTime = Time.time;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    Stop();
-                }
+    //private void InputHandler()
+    //{
+    //    switch (moveState)
+    //    {
+    //        case MoveState.Default:
+    //            #region Horizontal Input
+    //            if (Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D))
+    //            {
+    //                Stop();
+    //            }
+    //            else if (Input.GetKey(KeyCode.A))
+    //            {
+    //                MoveLeft();
+    //                if (!leftMoveClick)
+    //                {
+    //                    lastClickTime = Time.time;
+    //                    leftMoveClick = true;
+    //                }
+    //                else
+    //                {
+    //                    if (Input.GetKeyDown(KeyCode.A))
+    //                    {
+    //                        if(Time.time - lastClickTime <= doubleClickThreshhold && canDash)
+    //                        {
+    //                            Dash();
+    //                            leftMoveClick = false;
+    //                        }
+    //                        else
+    //                        {
+    //                            lastClickTime = Time.time;
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //            else if (Input.GetKey(KeyCode.D))
+    //            {
+    //                MoveRight();
+    //                if (!rightMoveClick)
+    //                {
+    //                    lastClickTime = Time.time;
+    //                    rightMoveClick = true;
+    //                }
+    //                else
+    //                {
+    //                    if (Input.GetKeyDown(KeyCode.D))
+    //                    {
+    //                        if (Time.time - lastClickTime <= doubleClickThreshhold && canDash)
+    //                        {
+    //                            Dash();
+    //                            rightMoveClick = false;
+    //                        }
+    //                        else
+    //                        {
+    //                            lastClickTime = Time.time;
+    //                        }
+    //                    }
+    //                }
+    //            }
+    //            else
+    //            {
+    //                Stop();
+    //            }
 
-                #endregion
-                #region Jumping
-                if (!crouching && Input.GetKeyDown(KeyCode.Space) && (isGrounded() || doubleJump))
-                {
-                    Jump();
-                }
-                #endregion
-                #region Crouching
-                crouching = Input.GetKey(KeyCode.S);
-                #endregion
-                break;
+    //            #endregion
+    //            #region Jumping
+    //            if (!crouching && Input.GetKeyDown(KeyCode.Space) && (isGrounded() || doubleJump))
+    //            {
+    //                Jump();
+    //            }
+    //            #endregion
+    //            #region Crouching
+    //            crouching = Input.GetKey(KeyCode.S);
+    //            #endregion
+    //            break;
 
-        }
+    //    }
         
-    }
+    //}
 
     private void Movement()
     {

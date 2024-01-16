@@ -452,7 +452,7 @@ GameObject:
   - component: {fileID: 752800011}
   - component: {fileID: 752800014}
   - component: {fileID: 752800013}
-  - component: {fileID: 752800010}
+  - component: {fileID: 752800015}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -460,38 +460,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &752800010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 752800009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9abbd6f7f38b810478bc0ac9d5cc4f7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actor: {fileID: 0}
-  moveState: 0
-  speed: 10
-  jumpForce: 12
-  gravity: 20
-  crouchGravity: 30
-  doubleJump: 0
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  moveDir: {x: 0, y: 0}
-  headTouched: 0
-  cameraControl: {fileID: 519420033}
-  dashSpeed: 30
-  dashTime: 0.2
-  dashFalloffMultiplier: 5
-  timeBeforeDash: 5
-  canDash: 0
-  maxHitpoints: 100
-  hitpoints: 100
 --- !u!212 &752800011
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -631,6 +599,44 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &752800015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752800009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb0794fe2e7b764299a51e2ff6b8f47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 11400000, guid: acfec56caaed18c47a716090029f3933, type: 2}
+  actor: {fileID: 0}
+  moveState: 0
+  speed: 10
+  jumpForce: 12
+  gravity: 20
+  crouchGravity: 30
+  doubleJump: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  moveDir: {x: 0, y: 0}
+  headTouched: 0
+  cameraControl: {fileID: 519420033}
+  vel: {x: 0, y: 0}
+  space: 0
+  ran: 0
+  isGrounded: 0
+  jumpPressed: 0
+  jumpLetGo: 0
+  jumpButton: 0
+  isJumping: 0
+  jumpTime: 0
+  jumpStartTime: 10
+  dash: 0
+  numJumps: 0
 --- !u!1 &1110698961
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,6 +808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97a290153ccd7114c9023151e1dce515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 0}
   actor: {fileID: 0}
   moveState: 0
   speed: 10
