@@ -9,6 +9,7 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class PlayerMove2 : Actor, IDamageable
 
 {
+
     public CameraControl cameraControl;
 
     GameObject player;
@@ -26,8 +27,7 @@ public class PlayerMove2 : Actor, IDamageable
     [SerializeField] protected bool dash;
     [SerializeField] protected int numJumps = 0;
 
-    public Vector3 Position { get { return transform.position; } }
-    public float Hitpoints { get { return stats.currentHP; } set { stats.currentHP = value; } }
+    public float Hitpoints { get { return stats.currentHP; } }
 
 
 
@@ -71,8 +71,6 @@ public class PlayerMove2 : Actor, IDamageable
         {
             numJumps = 0;
         }
-
-
 
     }
 
@@ -127,8 +125,6 @@ public class PlayerMove2 : Actor, IDamageable
 
     }
 
-
-
     protected void Jump()
     {
         if (jumpPressed)
@@ -163,30 +159,6 @@ public class PlayerMove2 : Actor, IDamageable
          }*/
     }
 
-    public void Damage(float damageAmount)
-    {
-        StartCoroutine(cameraControl.Shake(0.2f, 0.5f));
-        stats.currentHP -= damageAmount;
-        if (stats.currentHP <= 0)
-        {
-            Death();
-        }
-    }
-
-    public void Heal(float healAmount)
-    {
-        stats.currentHP += healAmount;
-        if (stats.currentHP >= stats.maxHP)
-        {
-            stats.currentHP = stats.maxHP;
-        }
-    }
-
-    public void Death()
-    {
-        Debug.Log("You died");
-        Destroy(gameObject);
-    }
 
     /* private void InputHandler()
      {
@@ -314,5 +286,30 @@ public class PlayerMove2 : Actor, IDamageable
 
          canDash = true;
      }*/
+
+    public void Damage(float damageAmount)
+    {
+        StartCoroutine(cameraControl.Shake(0.2f, 0.5f));
+        stats.currentHP -= damageAmount;
+        if (stats.currentHP <= 0)
+        {
+            Death();
+        }
+    }
+
+    public void Heal(float healAmount)
+    {
+        stats.currentHP += healAmount;
+        if (stats.currentHP >= stats.maxHP)
+        {
+            stats.currentHP = stats.maxHP;
+        }
+    }
+
+    public void Death()
+    {
+        Debug.Log("You died");
+        Destroy(gameObject);
+    }
 
 }

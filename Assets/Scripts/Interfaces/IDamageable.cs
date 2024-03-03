@@ -4,8 +4,7 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    Vector3 Position { get; }
-    float Hitpoints { get; set; }
+    float Hitpoints { get; }
 
     void Damage(float damageAmount);
     void Heal(float healAmount);

@@ -23,8 +23,7 @@ public class PlayerMove : Actor, IDamageable
     [SerializeField] private float maxHitpoints = 100;
     [SerializeField] private float hitpoints = 100;
 
-    public Vector3 Position { get { return transform.position; } }
-    public float Hitpoints { get { return hitpoints; } set { hitpoints = value; } }
+    public float Hitpoints { get { return hitpoints; } }
 
     void Awake()
     {
