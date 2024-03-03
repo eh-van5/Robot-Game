@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c01b115901845294281a59b0d7a5c0e9, type: 3}
+  m_Name: Sword
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 7482667652216324306, guid: 5478f049160636e4ba60d212de597e5d, type: 3}
+  type: 0
+  damage: 50
+  range: 1
+  xSize: 4
+  ySize: 2
+  anticipationTime: 0.2
+  strikeTime: 0.05
+  recoveryTime: 0.1
