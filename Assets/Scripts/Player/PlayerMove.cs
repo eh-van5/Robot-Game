@@ -138,7 +138,7 @@ public class PlayerMove : Actor, IDamageable
 
     }
 
-    public void Damage(float damageAmount)
+    public void Damage(float damageAmount, Vector2 knockback)
     {
         StartCoroutine(cameraControl.Shake(0.2f, 0.5f));
         hitpoints -= damageAmount;

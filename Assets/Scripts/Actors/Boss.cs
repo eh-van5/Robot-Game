@@ -17,7 +17,6 @@ public class Boss : Actor, IDamageable
 
     [SerializeField] private string playerTag = "Player";
     [SerializeField] private GameObject player;
-    protected SpriteRenderer sr;
 
     [SerializeField] protected BossMoveState bossMoveState;
 
@@ -36,6 +35,8 @@ public class Boss : Actor, IDamageable
     [SerializeField] private float maxHitpoints = 100;
     [SerializeField] private float hitpoints = 100;
     [SerializeField] private bool phaseTwo = false;
+    [SerializeField] private float phaseTwoThreshold = 50;   // Hitpoints when boss changes to phase two
+    [SerializeField] private float phaseChangeTime = 2;
     [SerializeField] protected float timeBetweenAttacks = 5;    // time between the end of one attack and the start of another (in seconds)
     [SerializeField] protected float teleportSpeed = 1;  // Time to disappear and reappear when teleporting (in seconds)
     [SerializeField] protected float timeBetweenTeleport = 0.75f;   // Time in between disappearing and reappearing (in seconds)
@@ -59,7 +60,6 @@ public class Boss : Actor, IDamageable
         base.Start();
         yStart = transform.position.y;
         player = GameObject.FindWithTag(playerTag);
-        sr = GetComponent<SpriteRenderer>();
         bossMoveState = BossMoveState.Idle;
 
         Color transparent = sr.color;
@@ -116,10 +116,6 @@ public class Boss : Actor, IDamageable
                 break;
         }
         
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            StartCoroutine(changePhase(2));
-        }
     }
 
     void FixedUpdate()
@@ -371,10 +367,15 @@ public class Boss : Actor, IDamageable
     #endregion
 
     #region IDamageable
-    public void Damage(float damageAmount)
+    public void Damage(float damageAmount, Vector2 knockback)
     {
         hitpoints -= damageAmount;
+        Flash();
         Debug.Log("hitpoints: " + hitpoints);
+        if(!phaseTwo && hitpoints <= phaseTwoThreshold)
+        {
+            StartCoroutine(changePhase(phaseChangeTime));
+        }
         if (hitpoints <= 0)
         {
             Death();

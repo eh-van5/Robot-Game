@@ -14,6 +14,7 @@ public class Actor : MonoBehaviour
     [SerializeField] protected GameObject actor;
     protected Rigidbody2D rb;
     protected BoxCollider2D col;
+    protected SpriteRenderer sr;
 
     [SerializeField] protected MoveState moveState;
 
@@ -23,7 +24,15 @@ public class Actor : MonoBehaviour
     [SerializeField] protected float gravity = 20f;
     [SerializeField] protected float crouchGravity = 30f;
     [SerializeField] protected bool doubleJump;
+    [SerializeField] protected bool facingRight = true;
     protected bool crouching = false;
+
+    [Header("Combat")]
+    private Coroutine knockbackRoutine;
+    [SerializeField] protected float flashDuration = 0.1f;
+    public Material flashMaterial;      // White material for flashes
+    private Material originalMaterial;  // Material that sprite begins with
+    private Coroutine flashRoutine;
 
     [Header("Ground Check")]
     [SerializeField] protected LayerMask groundLayer;
@@ -38,11 +47,14 @@ public class Actor : MonoBehaviour
         actor = gameObject;
         rb = actor.GetComponent<Rigidbody2D>();
         col = actor.GetComponent<BoxCollider2D>();
+        sr = actor.GetComponent<SpriteRenderer>();
         moveState = MoveState.Default;
 
         headTouched = isHeadTouch();
         rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
+        flashMaterial = new Material(flashMaterial);
+        originalMaterial = sr.material;
     }
 
     protected void Update()
@@ -88,19 +100,19 @@ public class Actor : MonoBehaviour
         }
     }
 
-    //protected void MoveLeft()
-    //{
-    //    moveDir.x = -1;
-    //}
+    protected void MoveLeft()
+    {
+        moveDir.x = -1;
+    }
 
-    //protected void MoveRight()
-    //{
-    //    moveDir.x = 1;
-    //}
-    //protected void Stop()
-    //{
-    //    moveDir.x = 0;
-    //}
+    protected void MoveRight()
+    {
+        moveDir.x = 1;
+    }
+    protected void Stop()
+    {
+        moveDir.x = 0;
+    }
 
     //protected void Jump()
     //{
@@ -108,7 +120,49 @@ public class Actor : MonoBehaviour
     //    doubleJump = false;
     //}
 
+    #region Combat
+    protected void Flash()
+    {
+        // If is already flashing, then stop it first
+        if(flashRoutine != null)
+        {
+            StopCoroutine(FlashRoutine());
+        }
 
+        StartCoroutine(FlashRoutine());
+    }
+    protected void Knockback()
+    {
+        
+    }
+    /**
+     * Occurs when damage is taken
+     * Sprite flashes white for a short time
+     */
+    IEnumerator FlashRoutine()
+    {
+        // Change material to white
+        sr.material = flashMaterial;
+
+        // Material stays white for flashDuration seconds; white fades over time
+        Color color = sr.color;
+        while (color.a > 0)
+        {
+            color.a -= Time.deltaTime / (flashDuration);
+            sr.color = color;
+
+            yield return null;
+        }
+
+        // Change material back to original material before flash
+        sr.material = originalMaterial;
+        color.a = 1;
+        sr.color = color;
+
+        // Used to check if another Flash is happening
+        flashRoutine = null;
+    }
+    #endregion
     #region RayCast Checks
     protected bool isGrounded()
     {

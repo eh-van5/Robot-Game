@@ -73,9 +73,9 @@ public class NoMoveAttack : MonoBehaviour, IBossAttack
     private void OnTriggerEnter2D(Collider2D collision)
     {
         IDamageable damageable = collision.gameObject.GetComponent<IDamageable>();
-        if (damageable != null)
+        if (damageable != null && collision.gameObject.GetComponent<Boss>() == null)
         {
-            damageable.Damage(damage);
+            damageable.Damage(damage, Vector2.zero);
         }
     }
 }

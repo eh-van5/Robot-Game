@@ -27,9 +27,9 @@ public class BossComponent : MonoBehaviour, IDamageable
     }
 
     #region IDamageable
-    public void Damage(float damageAmount)
+    public void Damage(float damageAmount, Vector2 knockback)
     {
-        boss.Damage(damageAmount);
+        boss.Damage(damageAmount, knockback);
         hitpoints -= damageAmount;
         if (hitpoints <= 0)
         {

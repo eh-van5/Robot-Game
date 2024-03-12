@@ -6,7 +6,7 @@ using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 
-public class PlayerMove2 : Actor, IDamageable
+public class PlayerMove2 : Actor
 
 {
 
@@ -57,7 +57,10 @@ public class PlayerMove2 : Actor, IDamageable
         {
             space = true;
         }
-        moveDir.x = Input.GetAxisRaw("Horizontal");
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            
+        }
         moveDir.y = Input.GetAxisRaw("Vertical");
         jumpPressed = Input.GetButtonDown("Jump");
         jumpButton = Input.GetButton("Jump");
@@ -113,7 +116,7 @@ public class PlayerMove2 : Actor, IDamageable
         {
             if (moveDir.x == 0f)
             {
-                rb.AddForce(new Vector2(stats.dashSpeed, 0f), ForceMode2D.Impulse);
+                rb.AddForce(new Vector2((facingRight ? 1 : -1) * stats.dashSpeed, 0f), ForceMode2D.Impulse);
 
             }
             else
@@ -252,16 +255,6 @@ public class PlayerMove2 : Actor, IDamageable
 
       }*/
 
-    /* public void Damage(float damageAmount)
-     {
-         hitpoints -= damageAmount;
-     }
-
-     public void Heal(float healAmount)
-     {
-         hitpoints += healAmount;
-     }*/
-
     /* private void Dash()
      {
          StartCoroutine(dashMoveTimer());
@@ -287,29 +280,5 @@ public class PlayerMove2 : Actor, IDamageable
          canDash = true;
      }*/
 
-    public void Damage(float damageAmount)
-    {
-        StartCoroutine(cameraControl.Shake(0.2f, 0.5f));
-        stats.currentHP -= damageAmount;
-        if (stats.currentHP <= 0)
-        {
-            Death();
-        }
-    }
-
-    public void Heal(float healAmount)
-    {
-        stats.currentHP += healAmount;
-        if (stats.currentHP >= stats.maxHP)
-        {
-            stats.currentHP = stats.maxHP;
-        }
-    }
-
-    public void Death()
-    {
-        Debug.Log("You died");
-        Destroy(gameObject);
-    }
 
 }

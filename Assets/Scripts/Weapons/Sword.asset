@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 7482667652216324306, guid: 5478f049160636e4ba60d212de597e5d, type: 3}
   type: 0
-  damage: 50
-  range: 1
-  xSize: 4
+  damage: 10
+  knockbackForce: 100
+  xSize: 3
   ySize: 2
-  anticipationTime: 0.2
-  strikeTime: 0.05
+  anticipationTime: 0
+  strikeTime: 0.01
   recoveryTime: 0.1
